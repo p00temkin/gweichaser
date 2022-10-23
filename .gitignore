@@ -1,0 +1,7 @@
+config
+target
+bin
+*.sh
+*.jar
+*.pl
+*.bak
