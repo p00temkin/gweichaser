@@ -42,7 +42,7 @@ public class Start {
 		int repeatCount = 0;
 		while (true) {
 			BigDecimal gasPrice = EVMUtils.getCurrentNetworkGasPriceInGWEI(connector);
-			LOGGER.info(settings.getChain() + " current gasprice: " + gasPrice + " gwei [below threshold counter:" + repeatCount + "] threshold: " + settings.getGweiThreshold() + " gwei");
+			System.out.println(settings.getChain() + " current gasprice: " + gasPrice + " gwei [below threshold counter:" + repeatCount + "] threshold: " + settings.getGweiThreshold() + " gwei");
 
 			if (gasPrice.longValue() <= settings.getGweiThreshold()) {
 				repeatCount++;

@@ -59,7 +59,7 @@ To support this project directly:
 
    ```
    Ethereum/EVM: forestfish.x / 0x207d907768Df538F32f0F642a281416657692743
-   Algorand: forestfish.algo / HDWK77MR2O7BLSNFIYG3OPBKTPLNB5PHK4XLGGUYEK4LKTMK7WOCLHE57I
+   Algorand: forestfish.x / HDWK77MR2O7BLSNFIYG3OPBKTPLNB5PHK4XLGGUYEK4LKTMK7WOCLHE57I
    ```
 
 Or please consider donating to EFF:
