@@ -40,6 +40,7 @@ public class Start {
 		EVMUtils.sanityCheckWithEarlyExit(connector);
 
 		int repeatCount = 0;
+		boolean notificationSent = false;
 		while (true) {
 			BigDecimal gasPrice = EVMUtils.getCurrentNetworkGasPriceInGWEI(connector);
 			System.out.println(settings.getChain() + " current gasprice: " + gasPrice + " gwei [below threshold counter:" + repeatCount + "] threshold: " + settings.getGweiThreshold() + " gwei");
@@ -53,13 +54,17 @@ public class Start {
 			if (repeatCount >= settings.getRepeatbelowThreshold()) {
 				LOGGER.info("We reached below the gwei threshold (" + settings.getGweiThreshold() + ") " + repeatCount + " times. Current gasprice is " + gasPrice + " gwei for " + settings.getChain());
 
-				if (!"xxxxxxxxx".equals(settings.getApiTokenApp())) {
+				if (!"xxxxxxxxx".equals(settings.getApiTokenApp()) && !notificationSent) {
 					LOGGER.info("Shipping notification to the pushover service ..");
 					NotificationUtils.pushover(settings.getApiTokenUser(), settings.getApiTokenApp(), settings.getChain() + " Low GWEI!", "time to hustle on ETH, gas is " + gasPrice  + " GWEI", MessagePriority.HIGH, "http://www.etherscan.io/gastracker", "Etherscan GWEI price", "cashregister");
+					notificationSent = true;
 				}
 
-				LOGGER.info("exiting.");
-				SystemUtils.halt();
+				if (!settings.isContinousMode()) {
+					LOGGER.info("exiting since we are not in continous mode..");
+					SystemUtils.halt();
+				}
+
 			}
 			SystemUtils.sleepInSeconds(settings.getPollIntervalinSeconds());
 		}
@@ -103,6 +108,10 @@ public class Start {
 		// Number of times to remain below threshold before alert
 		Option repeatbelowthreshold = new Option("r", "repeatbelowthreshold", true, "repeat below threshold (default 2)");
 		options.addOption(repeatbelowthreshold);
+		
+		// Continous mode
+		Option continousOpt = new Option("k", "continous", false, "set to true to keep running after threshold criteria met");
+		options.addOption(continousOpt);
 
 		HelpFormatter formatter = new HelpFormatter();
 		CommandLineParser parser = new DefaultParser();
@@ -126,6 +135,7 @@ public class Start {
 			if (cmd.hasOption("s")) settings.setPollIntervalinSeconds(Integer.parseInt(cmd.getOptionValue("pollintervalinseconds")));
 			if (cmd.hasOption("r")) settings.setRepeatbelowThreshold(Integer.parseInt(cmd.getOptionValue("repeatbelowthreshold")));
 			if (cmd.hasOption("n")) settings.setNodeOptimize(true);
+			if (cmd.hasOption("k")) settings.setContinousMode(true);
 
 			settings.print();
 

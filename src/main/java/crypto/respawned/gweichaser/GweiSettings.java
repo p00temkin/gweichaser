@@ -13,6 +13,7 @@ public class GweiSettings {
     private String apiTokenApp = "xxxxxxxxx";
     private String apiTokenUser = "xxxxxxxxx";
     private boolean nodeOptimize = false;
+    private boolean continousMode = false;
     
     public GweiSettings() {
         super();
@@ -74,12 +75,21 @@ public class GweiSettings {
 		this.chain = chain;
 	}
 
+	public boolean isContinousMode() {
+		return continousMode;
+	}
+
+	public void setContinousMode(boolean continousMode) {
+		this.continousMode = continousMode;
+	}
+
 	public void print() {
         System.out.println("Settings:");
         System.out.println(" - chain: " + this.getChain());
         System.out.println(" - gweiThreshold: " + this.getGweiThreshold());
         System.out.println(" - pollIntervalinSeconds: " + this.getPollIntervalinSeconds());
         System.out.println(" - repeatbelowThreshold: " + this.getRepeatbelowThreshold());
+        System.out.println(" - continousMode: " + this.isContinousMode());
         if (!"".equals(this.getProviderURL())) System.out.println(" - providerURL: " + this.getProviderURL());
         if (!"xxxxxxxxx".equals(this.getApiTokenApp())) System.out.println(" - apiTokenApp: " + this.getApiTokenApp());
         if (!"xxxxxxxxx".equals(this.getApiTokenUser())) System.out.println(" - apiTokenUser: " + this.getApiTokenUser());
