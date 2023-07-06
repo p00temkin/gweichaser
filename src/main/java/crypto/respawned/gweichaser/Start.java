@@ -42,21 +42,21 @@ public class Start {
 		int repeatCount = 0;
 		boolean notificationSent = false;
 		while (true) {
-			BigDecimal gasPrice = EVMUtils.getCurrentNetworkGasPriceInGWEI(connector);
-			System.out.println(settings.getChain() + " current gasprice: " + gasPrice + " gwei [below threshold counter:" + repeatCount + "] threshold: " + settings.getGweiThreshold() + " gwei");
+			BigDecimal gasPriceInGwei = EVMUtils.getCurrentNetworkGasPriceInGWEI(connector);
+			System.out.println(settings.getChain() + " current gasprice: " + gasPriceInGwei + " gwei [below threshold counter:" + repeatCount + "] threshold: " + settings.getGweiThreshold() + " gwei");
 
-			if (gasPrice.longValue() <= settings.getGweiThreshold()) {
+			if (gasPriceInGwei.doubleValue() <= settings.getGweiThreshold()) {
 				repeatCount++;
 			} else {
 				repeatCount = 0;
 			}
 
 			if (repeatCount >= settings.getRepeatbelowThreshold()) {
-				LOGGER.info("We reached below the gwei threshold (" + settings.getGweiThreshold() + ") " + repeatCount + " times. Current gasprice is " + gasPrice + " gwei for " + settings.getChain());
+				LOGGER.info("We reached below the gwei threshold (" + settings.getGweiThreshold() + ") " + repeatCount + " times. Current gasprice is " + gasPriceInGwei + " gwei for " + settings.getChain());
 
 				if (!"xxxxxxxxx".equals(settings.getApiTokenApp()) && !notificationSent) {
 					LOGGER.info("Shipping notification to the pushover service ..");
-					NotificationUtils.pushover(settings.getApiTokenUser(), settings.getApiTokenApp(), settings.getChain() + " Low GWEI!", "time to hustle on ETH, gas is " + gasPrice  + " GWEI", MessagePriority.HIGH, "http://www.etherscan.io/gastracker", "Etherscan GWEI price", "cashregister");
+					NotificationUtils.pushover(settings.getApiTokenUser(), settings.getApiTokenApp(), settings.getChain() + " Low GWEI!", "time to hustle on ETH, gas is " + gasPriceInGwei  + " GWEI", MessagePriority.HIGH, "http://www.etherscan.io/gastracker", "Etherscan GWEI price", "cashregister");
 					notificationSent = true;
 				}
 
@@ -129,7 +129,7 @@ public class Start {
 				settings.setChain(chain);
 			}
 			if (cmd.hasOption("p")) settings.setProviderURL(cmd.getOptionValue("providerurl"));
-			if (cmd.hasOption("t")) settings.setGweiThreshold(Integer.parseInt(cmd.getOptionValue("gweithreshold")));
+			if (cmd.hasOption("t")) settings.setGweiThreshold(Double.parseDouble(cmd.getOptionValue("gweithreshold")));
 			if (cmd.hasOption("a")) settings.setApiTokenApp(cmd.getOptionValue("apitokenappid"));
 			if (cmd.hasOption("u")) settings.setApiTokenUser(cmd.getOptionValue("apitokenuserid"));
 			if (cmd.hasOption("s")) settings.setPollIntervalinSeconds(Integer.parseInt(cmd.getOptionValue("pollintervalinseconds")));

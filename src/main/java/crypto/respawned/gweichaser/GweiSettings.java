@@ -6,7 +6,7 @@ import crypto.forestfish.utils.SystemUtils;
 public class GweiSettings {
 
 	private EVMChain chain = EVMChain.ETHEREUM;
-    private Integer gweiThreshold = 20;
+    private Double gweiThreshold = 20.0d;
     private Integer repeatbelowThreshold = 3;
     private Integer pollIntervalinSeconds = 60;
     private String providerURL = "";
@@ -17,14 +17,6 @@ public class GweiSettings {
     
     public GweiSettings() {
         super();
-    }
-
-    public Integer getGweiThreshold() {
-        return gweiThreshold;
-    }
-
-    public void setGweiThreshold(Integer gweiThreshold) {
-        this.gweiThreshold = gweiThreshold;
     }
 
     public String getProviderURL() {
@@ -98,7 +90,7 @@ public class GweiSettings {
 
     public void sanityCheck() {
         boolean allgood = true;
-        if (this.getGweiThreshold()<=0) {
+        if (this.getGweiThreshold()<=0.0d) {
             System.out.println(" - gweiThreshold INVALID: " + this.getGweiThreshold());
             allgood = false;
         }
@@ -114,6 +106,14 @@ public class GweiSettings {
 
 	public void setNodeOptimize(boolean nodeOptimize) {
 		this.nodeOptimize = nodeOptimize;
+	}
+
+	public Double getGweiThreshold() {
+		return gweiThreshold;
+	}
+
+	public void setGweiThreshold(Double gweiThreshold) {
+		this.gweiThreshold = gweiThreshold;
 	}
     
 }
