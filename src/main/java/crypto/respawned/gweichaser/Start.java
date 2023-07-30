@@ -14,6 +14,7 @@ import org.slf4j.LoggerFactory;
 
 import crypto.forestfish.enums.evm.EVMChain;
 import crypto.forestfish.objects.evm.connector.EVMBlockChainConnector;
+import crypto.forestfish.objects.evm.model.chain.EVMChainInfo;
 import crypto.forestfish.utils.EVMUtils;
 import crypto.forestfish.utils.NotificationUtils;
 import crypto.forestfish.utils.SystemUtils;
@@ -54,9 +55,15 @@ public class Start {
 			if (repeatCount >= settings.getRepeatbelowThreshold()) {
 				LOGGER.info("We reached below the gwei threshold (" + settings.getGweiThreshold() + ") " + repeatCount + " times. Current gasprice is " + gasPriceInGwei + " gwei for " + settings.getChain());
 
+				EVMChainInfo chainInfo = EVMUtils.getEVMChainInfo(settings.getChain());
+				String gastrackerURL = "http://www.etherscan.io/gastracker";
+				if (!chainInfo.getBlockexplorerURLs().isEmpty()) {
+					gastrackerURL = chainInfo.getBlockexplorerURLs().get(0) + "/gastracker";
+				}
+				
 				if (!"xxxxxxxxx".equals(settings.getApiTokenApp()) && !notificationSent) {
 					LOGGER.info("Shipping notification to the pushover service ..");
-					NotificationUtils.pushover(settings.getApiTokenUser(), settings.getApiTokenApp(), settings.getChain() + " Low GWEI!", "time to hustle on ETH, gas is " + gasPriceInGwei  + " GWEI", MessagePriority.HIGH, "http://www.etherscan.io/gastracker", "Etherscan GWEI price", "cashregister");
+					NotificationUtils.pushover(settings.getApiTokenUser(), settings.getApiTokenApp(), settings.getChain() + " Low GWEI!", "time to hustle on " + settings.getChain() + ", gas is " + gasPriceInGwei  + " GWEI", MessagePriority.HIGH, gastrackerURL, settings.getChain() + " GWEI price", "cashregister");
 					notificationSent = true;
 				}
 
