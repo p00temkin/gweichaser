@@ -14,6 +14,7 @@ public class GweiSettings {
     private String apiTokenUser = "xxxxxxxxx";
     private boolean nodeOptimize = false;
     private boolean continousMode = false;
+    private boolean haltOnRPCNodeSelectionFail = false;
     
     public GweiSettings() {
         super();
@@ -81,6 +82,7 @@ public class GweiSettings {
         System.out.println(" - gweiThreshold: " + this.getGweiThreshold());
         System.out.println(" - pollIntervalinSeconds: " + this.getPollIntervalinSeconds());
         System.out.println(" - repeatbelowThreshold: " + this.getRepeatbelowThreshold());
+        System.out.println(" - haltOnRPCNodeSelectionFail: " + this.isHaltOnRPCNodeSelectionFail());
         System.out.println(" - continousMode: " + this.isContinousMode());
         if (!"".equals(this.getProviderURL())) System.out.println(" - providerURL: " + this.getProviderURL());
         if (!"xxxxxxxxx".equals(this.getApiTokenApp())) System.out.println(" - apiTokenApp: " + this.getApiTokenApp());
@@ -114,6 +116,14 @@ public class GweiSettings {
 
 	public void setGweiThreshold(Double gweiThreshold) {
 		this.gweiThreshold = gweiThreshold;
+	}
+
+	public boolean isHaltOnRPCNodeSelectionFail() {
+		return haltOnRPCNodeSelectionFail;
+	}
+
+	public void setHaltOnRPCNodeSelectionFail(boolean haltOnRPCNodeSelectionFail) {
+		this.haltOnRPCNodeSelectionFail = haltOnRPCNodeSelectionFail;
 	}
     
 }

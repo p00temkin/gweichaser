@@ -32,11 +32,11 @@ public class Start {
 
 		EVMBlockChainConnector connector;
 		if (settings.isNodeOptimize()) {
-			connector = EVMUtils.getEVMChainConnector(settings.getChain(), true);
+			connector = EVMUtils.getEVMChainConnector(settings.getChain(), true, settings.isHaltOnRPCNodeSelectionFail());
 		} else if (settings.getProviderURL().length() > 3) {
-			connector = EVMUtils.getEVMChainConnector(settings.getChain(), settings.getProviderURL());
+			connector = EVMUtils.getEVMChainConnector(settings.getChain(), settings.getProviderURL(), settings.isHaltOnRPCNodeSelectionFail());
 		} else {
-			connector = EVMUtils.getEVMChainConnector(settings.getChain());
+			connector = EVMUtils.getEVMChainConnector(settings.getChain(), false, settings.isHaltOnRPCNodeSelectionFail());
 		}
 		EVMUtils.sanityCheckWithEarlyExit(connector);
 
