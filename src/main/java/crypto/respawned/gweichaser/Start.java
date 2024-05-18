@@ -126,7 +126,7 @@ public class Start {
 		try {
 			cmd = parser.parse(options, args);
 			if (cmd.hasOption("c")) {
-				EVMChain chain = EVMChain.ETHEREUM;
+				EVMChain chain = EVMChain.ETH;
 				try {
 					chain = EVMChain.valueOf(cmd.getOptionValue("chain"));
 				} catch (Exception e) {

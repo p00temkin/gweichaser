@@ -5,7 +5,7 @@ import crypto.forestfish.utils.SystemUtils;
 
 public class GweiSettings {
 
-	private EVMChain chain = EVMChain.ETHEREUM;
+	private EVMChain chain = EVMChain.ETH;
     private Double gweiThreshold = 20.0d;
     private Integer repeatbelowThreshold = 3;
     private Integer pollIntervalinSeconds = 60;
